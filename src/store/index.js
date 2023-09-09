@@ -7,13 +7,17 @@ export default new Vuex.Store({
   state: {
     giphyFetch: {},
     giphySearch: {},
-    giphyFavorites: {},
+    giphyFavorites: [],
     giphyTrending: {},
+    localStorageFavorites: [],
     processing: false
   },
   getters: {
     getGiphySearchResults (state) {
       return state.giphySearch
+    },
+    getLocalStorageFavorites (state) {
+      return state.localStorageFavorites
     }
   },
   mutations: {
@@ -22,6 +26,9 @@ export default new Vuex.Store({
     },
     setGiphySearch (state, payload) {
       state.giphySearch = payload
+    },
+    loadFavorites (state, payload) {
+      state.localStorageFavorites = payload
     }
   },
   actions: {
@@ -36,5 +43,9 @@ export default new Vuex.Store({
         console.log(error);
       })
     },
+    loadFavoritesLocalStorage (context) {
+      let favorites = JSON.parse(localStorage.getItem('favoriteGifsArray'))
+      context.commit('loadFavorites', favorites)
+    }
   }
 })
