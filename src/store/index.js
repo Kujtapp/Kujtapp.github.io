@@ -25,9 +25,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    loadGiphySearch (context, apiKey) {
+    loadGiphySearch (context, { apiKey, searchKey }) {
       context.commit('setProcessing', true)
-      return new GiphyFetch(apiKey).search("gifs", {"limit": 5})
+      return new GiphyFetch(apiKey).search(searchKey, {"limit": 6})
       .then(response => {
         context.commit('setProcessing', false)
         context.commit('setGiphySearch', response.data)
