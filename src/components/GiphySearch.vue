@@ -99,9 +99,9 @@ export default {
         },
         openModal (arr) {
             this.selectedGif = arr
-            this.$nextTick(() => {
+            setTimeout(() => {
                 this.$refs.modal.open()
-            })
+            }, 500)
         },
         loadMore () {
             this.offset += this.limit
