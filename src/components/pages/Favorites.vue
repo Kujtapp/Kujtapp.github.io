@@ -6,7 +6,7 @@
                 <div class="col-md-4" v-for="(searchResult, index) in favoriteGifs" :key="index">
                     <custom-card :title="searchResult.title">
                         <template slot="custom-card-header">
-                            <img class="card-imge-top" :src="searchResult.images.fixed_height.url" alt="" width="350px" :height="searchResult.images.fixed_height.height + 'px'">
+                            <img class="card-image-top cursor-pointer img-width" @click="openModal(searchResult)" :src="searchResult.images.fixed_height.url" alt="" width="350px" :height="searchResult.images.fixed_height.height + 'px'">
                         </template>
                         <template slot="custom-card-body">
                         </template>
@@ -16,19 +16,35 @@
                     </custom-card>
                 </div>
             </div>
+            <bootstrap-modal ref="modal" :size="'medium'" v-if="selectedGif" :needFooter="false">
+                <template slot="title">
+                    {{ selectedGif.title }}
+                </template>
+                <template slot="body">
+                    <div class="d-flex justify-content-center">
+                        <img class="card-image-top" :src="selectedGif.images.original.url" :alt="selectedGif.title">
+                    </div>
+                </template>
+            </bootstrap-modal>
+            <no-favorites v-if="!favoriteGifs.length"></no-favorites>
         </div>
     </div>
 </template>
 
 <script>
 import CustomCard from '../custom/CustomCard.vue'
+import BootstrapModal from '../custom/BootstrapModal.vue'
+import NoFavorites from '../layout/NoFavorites.vue'
 export default {
     components: {
-        CustomCard
+        CustomCard,
+        NoFavorites,
+        BootstrapModal
     },
     data () {
         return {
-            favoriteGifs: []
+            favoriteGifs: [],
+            selectedGif : null
         }
     },
     mounted () {
@@ -39,7 +55,13 @@ export default {
             this.favoriteGifs.splice(index, 1);
             const parsedFavoriteGif = JSON.stringify(this.favoriteGifs)
             localStorage.setItem('favoriteGifsArray', parsedFavoriteGif);
-        }
+        },
+        openModal (arr) {
+            this.selectedGif = arr
+            this.$nextTick(() => {
+                this.$refs.modal.open()
+            })
+        },
     }
 }
 </script>
