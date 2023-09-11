@@ -26,11 +26,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-@media only screen and (max-width: 600px) {
-  .img-responsive {
-    width: 470px;
-  }
-}
-</style>
