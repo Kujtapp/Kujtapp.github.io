@@ -125,7 +125,7 @@ export default {
     width: 440px;
   }
   .card-image-top {
-    width: 200px
+    width: 400px
   }
 }
 </style>
